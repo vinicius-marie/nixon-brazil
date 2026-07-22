@@ -1,2 +1,4 @@
-# richardnixonbrazil
-Create a website inspired on southernbriefnews project on github (private;myself) and on Nixon website himself, from Richard Nixon Foundation.
+# nixon-brazil
+Create a website inspired by the Richard Nixon Foundation website.
+
+Permission note: enable ChatGPT/Copilot access from your repository settings/integrations.
