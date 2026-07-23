@@ -3,6 +3,8 @@ name: Publicar Nixon Brasil
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -11,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -20,16 +22,38 @@ jobs:
     steps:
       - name: Baixar repositório
         uses: actions/checkout@v6
+
+      - name: Preparar Node
+        if: ${{ hashFiles('package.json') != '' }}
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        if: ${{ hashFiles('package.json') != '' }}
+        run: npm install --no-audit --no-fund
+
+      - name: Compilar Astro
+        if: ${{ hashFiles('package.json') != '' }}
+        run: npm run build
+
+      - name: Preparar site estático legado
+        if: ${{ hashFiles('package.json') == '' }}
+        run: |
+          mkdir -p dist
+          rsync -a --exclude='.git' --exclude='.github' --exclude='dist' ./ dist/
+
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
-      - name: Validar entrada do site
-        run: test -f index.html
-      - name: Empacotar site estático
+
+      - name: Empacotar site
         uses: actions/upload-pages-artifact@v4
         with:
-          path: .
+          path: dist
 
   deploy:
+    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
