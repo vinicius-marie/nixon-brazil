@@ -1,0 +1,144 @@
+media:
+  input: public/uploads
+  output: /uploads
+
+content:
+  - name: artigos
+    label: Artigos
+    type: collection
+    path: src/content/artigos
+    view:
+      fields: [title, category, publishedAt, draft]
+      primary: title
+      sort: [publishedAt, title]
+      default:
+        sort: publishedAt
+        order: desc
+    fields:
+      - name: title
+        label: Título
+        type: string
+        required: true
+      - name: subtitle
+        label: Subtítulo
+        type: string
+      - name: description
+        label: Resumo para busca e redes
+        type: text
+        required: true
+      - name: publishedAt
+        label: Data de publicação
+        type: date
+        required: true
+      - name: updatedAt
+        label: Última atualização
+        type: date
+      - name: author
+        label: Autor
+        type: string
+        default: Nixon Brasil
+      - name: category
+        label: Categoria
+        type: select
+        required: true
+        options:
+          values:
+            - Biografia
+            - Presidência
+            - Política externa
+            - Nixon e o Brasil
+            - Discursos
+            - Acervo
+      - name: cover
+        label: Imagem de capa
+        type: image
+      - name: coverAlt
+        label: Texto alternativo da capa
+        type: string
+      - name: coverCredit
+        label: Crédito da imagem
+        type: string
+      - name: sourceUrl
+        label: Fonte primária principal
+        type: string
+      - name: featured
+        label: Destacar na página inicial
+        type: boolean
+        default: false
+      - name: draft
+        label: Rascunho
+        type: boolean
+        default: true
+      - name: body
+        label: Texto
+        type: rich-text
+        required: true
+
+  - name: documentos
+    label: Documentos do acervo
+    type: collection
+    path: src/content/documentos
+    view:
+      fields: [title, date, format, category]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Título editorial
+        type: string
+        required: true
+      - name: originalTitle
+        label: Título original
+        type: string
+      - name: date
+        label: Data do documento
+        type: date
+        required: true
+      - name: format
+        label: Formato
+        type: select
+        options:
+          values:
+            - Memorando
+            - Discurso
+            - Tratado
+            - Fotografia
+            - Gravação
+            - Vídeo
+            - Lei
+      - name: category
+        label: Tema
+        type: select
+        options:
+          values:
+            - Biografia
+            - Presidência
+            - Política externa
+            - Nixon e o Brasil
+      - name: archive
+        label: Arquivo de origem
+        type: string
+      - name: reference
+        label: Referência oficial
+        type: string
+      - name: originalUrl
+        label: Link para o original
+        type: string
+        required: true
+      - name: translationStatus
+        label: Situação da tradução
+        type: select
+        options:
+          values:
+            - Original em inglês
+            - Tradução em preparação
+            - Tradução editorial publicada
+      - name: description
+        label: Nota documental
+        type: text
+      - name: body
+        label: Comentário ou tradução
+        type: rich-text

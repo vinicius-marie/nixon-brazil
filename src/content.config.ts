@@ -1,0 +1,50 @@
+import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
+
+const artigos = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/artigos' }),
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string().optional(),
+    description: z.string(),
+    publishedAt: z.coerce.date(),
+    updatedAt: z.coerce.date().optional(),
+    author: z.string().default('Nixon Brasil'),
+    category: z.enum([
+      'Biografia',
+      'Presidência',
+      'Política externa',
+      'Nixon e o Brasil',
+      'Discursos',
+      'Acervo',
+    ]),
+    cover: z.string().optional(),
+    coverAlt: z.string().optional(),
+    coverCredit: z.string().optional(),
+    sourceUrl: z.string().url().optional(),
+    featured: z.boolean().default(false),
+    draft: z.boolean().default(true),
+  }),
+});
+
+const documentos = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/documentos' }),
+  schema: z.object({
+    title: z.string(),
+    originalTitle: z.string().optional(),
+    date: z.coerce.date(),
+    format: z.enum(['Memorando', 'Discurso', 'Tratado', 'Fotografia', 'Gravação', 'Vídeo', 'Lei']),
+    category: z.enum(['Biografia', 'Presidência', 'Política externa', 'Nixon e o Brasil']),
+    archive: z.string().optional(),
+    reference: z.string().optional(),
+    originalUrl: z.string().url(),
+    translationStatus: z.enum([
+      'Original em inglês',
+      'Tradução em preparação',
+      'Tradução editorial publicada',
+    ]).default('Original em inglês'),
+    description: z.string().optional(),
+  }),
+});
+
+export const collections = { artigos, documentos };

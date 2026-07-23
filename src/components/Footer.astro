@@ -1,0 +1,35 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div>
+      <strong>NIXON BRASIL</strong>
+      <p>Vida, Presidência, política externa e legado de Richard Nixon em português.</p>
+    </div>
+    <div>
+      <span>Explorar</span>
+      <a href={`${base}biografia/`}>Biografia</a>
+      <a href={`${base}presidencia/`}>Presidência</a>
+      <a href={`${base}politica-externa/`}>Política externa</a>
+      <a href={`${base}brasil/`}>Nixon e o Brasil</a>
+    </div>
+    <div>
+      <span>Publicação</span>
+      <a href={`${base}artigos/`}>Artigos</a>
+      <a href={`${base}acervo/`}>Acervo</a>
+      <a href={`${base}videos/`}>Vídeos</a>
+      <a href={`${base}rss.xml`}>RSS</a>
+    </div>
+    <div>
+      <span>Fontes-base</span>
+      <a href="https://www.nixonlibrary.gov/" target="_blank" rel="noreferrer">Nixon Library / NARA ↗</a>
+      <a href="https://history.state.gov/historicaldocuments" target="_blank" rel="noreferrer">FRUS ↗</a>
+      <a href="https://www.presidency.ucsb.edu/" target="_blank" rel="noreferrer">American Presidency Project ↗</a>
+    </div>
+  </div>
+  <div class="shell footer-bottom">
+    <span>Protótipo independente, sem vínculo atual com a Richard Nixon Foundation ou a NARA.</span>
+    <span>Conteúdo e código versionados no GitHub.</span>
+  </div>
+</footer>

@@ -1,0 +1,42 @@
+---
+const base = import.meta.env.BASE_URL;
+const path = Astro.url.pathname;
+const links = [
+  ['Biografia', 'biografia/'],
+  ['Presidência', 'presidencia/'],
+  ['Política externa', 'politica-externa/'],
+  ['Brasil', 'brasil/'],
+  ['Acervo', 'acervo/'],
+  ['Artigos', 'artigos/'],
+  ['Vídeos', 'videos/'],
+];
+---
+<div class="utility-bar">
+  <div class="shell utility-inner">
+    <span>Projeto editorial independente · língua portuguesa</span>
+    <a href={`${base}sobre/`}>Sobre o projeto</a>
+  </div>
+</div>
+<header class="site-header">
+  <div class="shell nav-row">
+    <a class="wordmark" href={base} aria-label="Nixon Brasil, início">
+      <strong>NIXON BRASIL</strong>
+      <span>Richard Nixon em português</span>
+    </a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav id="menu" class="main-nav" aria-label="Navegação principal">
+      {links.map(([label, href]) => (
+        <a class:list={{ active: path.includes(`/${href}`) }} href={`${base}${href}`}>{label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+<script is:inline>
+  const button = document.querySelector('.menu-toggle');
+  const menu = document.querySelector('#menu');
+  button?.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!open));
+    menu?.classList.toggle('open', !open);
+  });
+</script>
