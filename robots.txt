@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://vinicius-marie.github.io/nixon-brazil/sitemap.xml

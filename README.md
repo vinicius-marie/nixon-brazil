@@ -4,7 +4,7 @@ Portal editorial independente sobre a vida, a Presidência, a política externa 
 
 ## Site
 
-`https://vinicius-marie.github.io/nixon-brazil/`
+`https://viniciusdaniel-law.github.io/nixon-brazil/`
 
 ## Produto
 
