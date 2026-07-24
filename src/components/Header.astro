@@ -34,9 +34,19 @@ const links = [
 <script is:inline>
   const button = document.querySelector('.menu-toggle');
   const menu = document.querySelector('#menu');
+  const setOpen = (open) => {
+    button?.setAttribute('aria-expanded', String(open));
+    menu?.classList.toggle('open', open);
+    document.body.classList.toggle('nav-open', open);
+  };
   button?.addEventListener('click', () => {
     const open = button.getAttribute('aria-expanded') === 'true';
-    button.setAttribute('aria-expanded', String(!open));
-    menu?.classList.toggle('open', !open);
+    setOpen(!open);
+  });
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setOpen(false));
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setOpen(false);
   });
 </script>

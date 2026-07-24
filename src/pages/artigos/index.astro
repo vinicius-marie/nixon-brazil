@@ -12,16 +12,22 @@ const articles = (await getCollection('artigos', ({ data }) => !data.draft))
   </section>
   <section class="section">
     <div class="shell cards">
-      {articles.map((article) => (
+      {articles.map((article) => {
+        const raw = article.data.cover ?? '';
+        const cover = raw.startsWith('http') ? raw : raw ? `${base}${raw.replace(/^\//, '')}` : '';
+        return (
         <a class="card" href={`${base}artigos/${article.id}/`}>
-          {article.data.cover && <img src={`${base}${article.data.cover.replace(/^\//, '')}`} alt={article.data.coverAlt ?? ''} />}
+          {cover
+            ? <img src={cover} alt={article.data.coverAlt ?? ''} width="640" height="360" loading="lazy" decoding="async" />
+            : <div class="card-cover-fallback" aria-hidden="true">{article.data.category}</div>}
           <div class="card-body">
             <span class="card-meta">{article.data.category} · {article.data.publishedAt.toLocaleDateString('pt-BR')}</span>
             <h2>{article.data.title}</h2>
             <p>{article.data.description}</p>
           </div>
         </a>
-      ))}
+        );
+      })}
     </div>
   </section>
 </BaseLayout>

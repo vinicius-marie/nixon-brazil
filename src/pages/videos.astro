@@ -1,22 +1,26 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL;
 ---
-<BaseLayout title="Vídeos" description="Projeto de tradução, legendagem e contextualização de vídeos históricos de Richard Nixon para o público de língua portuguesa.">
-  <section class="page-hero"><div class="shell"><p class="kicker light">Imagem, voz e arquivo</p><h1>Vídeos em português</h1><p>Trechos históricos traduzidos com identificação do original, legenda revisada, contexto editorial e situação de direitos.</p></div></section>
-  <section class="section white"><div class="shell">
-    <div class="section-head"><div><p class="kicker">Fluxo editorial</p><h2>Do arquivo ao corte publicado.</h2></div><p>A tradução não é tratada como substituição mecânica de palavras. Cada vídeo preserva a fonte, o tom, a cronologia e a distinção entre fala original e comentário editorial.</p></div>
-    <div class="policy-grid">
-      <article class="policy"><b>01 · FONTE</b><h3>Localizar</h3><p>Confirmar arquivo, data, autoria, integridade do trecho e situação de direitos.</p></article>
-      <article class="policy"><b>02 · ÁUDIO</b><h3>Transcrever</h3><p>Gerar uma transcrição inicial e revisar nomes, instituições, datas e termos políticos.</p></article>
-      <article class="policy"><b>03 · LÍNGUA</b><h3>Traduzir</h3><p>Preservar registro retórico, ambiguidades e vocabulário diplomático sem português artificial.</p></article>
-      <article class="policy"><b>04 · LEGENDA</b><h3>Sincronizar</h3><p>Blocos curtos, leitura confortável, pontuação correta e contraste acessível.</p></article>
-      <article class="policy"><b>05 · CONTEXTO</b><h3>Documentar</h3><p>Adicionar data, local, interlocutores, tema e ligação para a fonte integral.</p></article>
-      <article class="policy"><b>06 · DISTRIBUIÇÃO</b><h3>Publicar</h3><p>Exportar em 9:16, 4:5 e 16:9 para Instagram, X, YouTube e o portal.</p></article>
+<BaseLayout title="Vídeos" description="Série de vídeos históricos de Richard Nixon em português — em preparação no Nixon Brasil.">
+  <section class="page-hero">
+    <div class="shell">
+      <p class="kicker light">Em preparação</p>
+      <h1>Vídeos em português</h1>
+      <p>Ainda não publicamos cortes legendados. Quando saírem, cada um virá com fonte, data, crédito e legenda revisada — sem “conteúdo de IA” solto no ar.</p>
     </div>
-  </div></section>
-  <section class="section"><div class="shell prose-shell"><nav class="prose-nav"><a href="#foss">Ferramentas</a><a href="#direitos">Direitos</a><a href="#formatos">Formatos</a></nav><article class="prose">
-    <p class="kicker" id="foss">Stack FOSS</p><h2>Produção sem assinatura mensal.</h2><p><strong>yt-dlp</strong> para obtenção autorizada de mídia, <strong>FFmpeg</strong> para conversão, <strong>whisper.cpp</strong> para transcrição local, <strong>Aegisub</strong> ou <strong>Subtitle Edit</strong> para revisão e <strong>Kdenlive</strong> para corte, composição e exportação.</p>
-    <p class="kicker" id="direitos">Publicação responsável</p><h2>Verificação item por item.</h2><p>Materiais produzidos por órgãos federais americanos frequentemente podem estar em domínio público, mas a situação precisa ser verificada na ficha do arquivo. Vídeos da Foundation, emissoras, documentários e coleções privadas não devem ser tratados como automaticamente livres.</p>
-    <p class="kicker" id="formatos">Distribuição</p><h2>Uma edição, três saídas.</h2><p>O master horizontal preserva o arquivo; a versão vertical prioriza o rosto e a legenda; a versão 4:5 serve a carrosséis e ao feed. Todas apontam para a página completa no site.</p>
-  </article></div></section>
+  </section>
+  <section class="section white">
+    <div class="shell videos-status">
+      <p class="kicker">O que virá</p>
+      <h2 style="font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.05; margin: 0 0 18px;">Arquivo falado, em português.</h2>
+      <p>Discurso, entrevista e trecho de arquivo, com o original identificado e o comentário editorial separado da fala de Nixon. Enquanto isso, o texto e o acervo já estão no ar.</p>
+      <div class="actions" style="margin-top: 28px;">
+        <a class="btn dark" href={`${base}artigos/`}>Ler artigos</a>
+        <a class="btn" href={`${base}acervo/`} style="border-color: var(--navy);">Ver acervo</a>
+      </div>
+      <p style="margin-top: 36px; font-size: .95rem;">Notas técnicas de produção (transcrição, legenda, direitos) ficam em <a href="https://github.com/viniciusdaniel-law/nixon-brasil/blob/main/docs/TRADUCAO-DE-VIDEO.md" target="_blank" rel="noreferrer">docs/TRADUCAO-DE-VIDEO.md ↗</a>, não na página pública.</p>
+    </div>
+  </section>
 </BaseLayout>
