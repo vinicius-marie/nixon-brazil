@@ -5,103 +5,170 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const base = import.meta.env.BASE_URL;
 const articles = (await getCollection('artigos', ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
-const featured = articles.filter(({ data }) => data.featured).slice(0, 3);
+const lead = articles[0];
+const rest = articles.slice(1, 5);
+const docs = await getCollection('documentos');
+
+function coverOf(article: (typeof articles)[number]) {
+  const raw = article.data.cover ?? '';
+  if (!raw) return '';
+  return raw.startsWith('http') ? raw : `${base}${raw.replace(/^\//, '')}`;
+}
 ---
 <BaseLayout
   title="Nixon Brasil"
-  description="Portal editorial brasileiro sobre a vida, a Presidência, a política externa e o legado de Richard Nixon."
+  description="Defesa documentada do legado de Richard Nixon em português: China, Presidência, Brasil e arquivo."
 >
-  <section class="hero">
-    <img class="hero-media" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/NIXONcampaigns.jpg" alt="Richard Nixon em campanha diante de uma multidão em 1968" width="1600" height="900" fetchpriority="high" decoding="async" />
+  <section class="hero hero-v2">
+    <img
+      class="hero-media"
+      src="https://commons.wikimedia.org/wiki/Special:Redirect/file/NIXONcampaigns.jpg"
+      alt="Richard Nixon em campanha diante de uma multidão em 1968"
+      width="1600"
+      height="900"
+      fetchpriority="high"
+      decoding="async"
+    />
     <div class="shell hero-content">
       <div class="hero-copy">
-        <p class="kicker light">1913 — 1994</p>
-        <h1>Um outsider no centro da história.</h1>
-        <p>Da juventude na Califórnia à Casa Branca; das derrotas eleitorais à abertura da China. A trajetória, as decisões e o legado de Richard Nixon reunidos em português.</p>
+        <p class="hero-badge">Arquivo · ensaio · apologia</p>
+        <p class="kicker light">1913 — 1994 · 37º Presidente dos EUA</p>
+        <h1>Nixon em português.<br /><em>Sem desculpas.</em></h1>
+        <p class="hero-lead">
+          Portal editorial que defende o legado com documento na mesa:
+          abertura da China, Estado ambiental, détente e o Brasil como potência regional.
+        </p>
         <div class="actions">
-          <a class="btn primary" href={`${base}biografia/`}>Conheça a trajetória</a>
-          <a class="btn ghost" href={`${base}presidencia/`}>Explore a Presidência</a>
+          <a class="btn primary" href={`${base}artigos/`}>Ler os artigos</a>
+          <a class="btn gold" href={`${base}acervo/`}>Abrir o acervo</a>
+          <a class="btn ghost" href={`${base}politica-externa/`}>China · 1972</a>
         </div>
       </div>
     </div>
-    <p class="photo-credit">Ollie Atkins / NARA · NAID 194286 · domínio público</p>
+    <p class="photo-credit">Ollie Atkins / NARA · domínio público</p>
   </section>
 
-  <section class="impact-strip" aria-label="Dados centrais">
-    <div class="shell impact-grid">
-      <div><strong>37º</strong><span>Presidente dos Estados Unidos</span></div>
-      <div><strong>49</strong><span>Estados vencidos em 1972</span></div>
-      <div><strong>1972</strong><span>Abertura histórica à China</span></div>
-      <div><strong>10</strong><span>Livros publicados</span></div>
+  <section class="ticker" aria-label="Linha editorial">
+    <div class="shell ticker-inner">
+      <strong>Posição</strong>
+      <span>Favorável ao legado · fontes da Casa Branca, FRUS e NARA · independente</span>
+      <a href={`${base}sobre/`}>Sobre o projeto →</a>
     </div>
   </section>
 
-  <section class="section white">
-    <div class="shell">
-      <div class="section-head">
-        <div><p class="kicker">Destaques</p><h2>Os momentos que definiram uma Presidência.</h2></div>
-        <p>Campanha, poder interno, diplomacia e instituições apresentados por narrativas editoriais, documentos e imagens de arquivo.</p>
+  <section class="impact-strip impact-v2" aria-label="Números">
+    <div class="shell impact-grid">
+      <div><strong>49</strong><span>Estados em 1972</span></div>
+      <div><strong>1972</strong><span>Abertura à China</span></div>
+      <div><strong>{articles.length}</strong><span>Artigos no ar</span></div>
+      <div><strong>{docs.length}</strong><span>Peças no acervo</span></div>
+    </div>
+  </section>
+
+  {lead && (
+    <section class="section white lead-section">
+      <div class="shell">
+        <div class="section-head tight">
+          <div>
+            <p class="kicker">Capa da semana</p>
+            <h2>O que ler agora.</h2>
+          </div>
+          <a class="btn dark" href={`${base}artigos/`}>Todos os artigos</a>
+        </div>
+
+        <a class="lead-card" href={`${base}artigos/${lead.id}/`}>
+          {coverOf(lead)
+            ? <img src={coverOf(lead)} alt={lead.data.coverAlt ?? ''} width="1200" height="675" loading="eager" decoding="async" />
+            : <div class="card-cover-fallback lead-fallback" aria-hidden="true">{lead.data.category}</div>}
+          <div class="lead-copy">
+            <span class="card-meta">{lead.data.category} · {lead.data.publishedAt.toLocaleDateString('pt-BR')}</span>
+            <h3>{lead.data.title}</h3>
+            <p>{lead.data.subtitle ?? lead.data.description}</p>
+            <span class="read-link">Ler o ensaio completo →</span>
+          </div>
+        </a>
+
+        {rest.length > 0 && (
+          <div class="home-article-grid">
+            {rest.map((article) => {
+              const cover = coverOf(article);
+              return (
+                <a class="home-article" href={`${base}artigos/${article.id}/`}>
+                  {cover
+                    ? <img src={cover} alt={article.data.coverAlt ?? ''} width="640" height="360" loading="lazy" decoding="async" />
+                    : <div class="card-cover-fallback" aria-hidden="true">{article.data.category}</div>}
+                  <div>
+                    <span class="card-meta">{article.data.category}</span>
+                    <h3>{article.data.title}</h3>
+                    <p>{article.data.description}</p>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        )}
       </div>
-      <div class="story-grid">
-        <a class="story" href={`${base}politica-externa/`}>
-          <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/President_Richard_Nixon_and_Mao_Zedong.jpg" alt="Richard Nixon cumprimenta Mao Zedong em Pequim" width="1200" height="900" loading="lazy" decoding="async" />
-          <div class="story-copy"><span class="story-meta">China · 1972</span><h3>A semana que alterou o equilíbrio mundial</h3><p>Estratégia triangular, diplomacia secreta e o Comunicado de Xangai.</p></div>
-        </a>
-        <a class="story small" href={`${base}presidencia/`}>
-          <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/President_Richard_Nixon_Signing_the_National_Environmental_Policy_Act_of_1969_(cropped).jpg" alt="Nixon assina a National Environmental Policy Act" width="800" height="600" loading="lazy" decoding="async" />
-          <div class="story-copy"><span class="story-meta">Política interna</span><h3>O Estado ambiental moderno</h3></div>
-        </a>
-        <a class="story small" href={`${base}biografia/`}>
-          <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/RichardNixon.jpg" alt="Retrato oficial de Richard Nixon" width="800" height="1000" loading="lazy" decoding="async" />
-          <div class="story-copy"><span class="story-meta">Vida e carreira</span><h3>Da derrota ao retorno</h3></div>
-        </a>
-      </div>
+    </section>
+  )}
+
+  <section class="section quote-band">
+    <div class="shell quote-inner">
+      <p class="kicker light">Linha editorial</p>
+      <blockquote>
+        A charge de Watergate não apaga a China, a EPA, o SALT nem o mapa hemisférico.
+        Este site existe para devolver escala ao arquivo — em português.
+      </blockquote>
+      <a class="btn primary" href={`${base}artigos/abertura-china/`}>Começar pela China →</a>
     </div>
   </section>
 
   <section class="section">
     <div class="shell">
       <div class="section-head">
-        <div><p class="kicker">A Presidência</p><h2>Resultados que permanecem.</h2></div>
-        <p>Leis, órgãos e acordos que continuam presentes na estrutura institucional dos Estados Unidos.</p>
+        <div>
+          <p class="kicker">Mapa do site</p>
+          <h2>Quatro entradas.</h2>
+        </div>
+        <p>Escolha o eixo. Cada página liga narrativa a documento.</p>
       </div>
-      <div class="policy-grid">
-        <article class="policy"><b>01 · MEIO AMBIENTE</b><h3>EPA e ar limpo</h3><p>Criação da Environmental Protection Agency e consolidação da regulação federal ambiental.</p></article>
-        <article class="policy"><b>02 · TRABALHO</b><h3>OSHA</h3><p>Estrutura nacional para saúde e segurança ocupacional.</p></article>
-        <article class="policy"><b>03 · SAÚDE</b><h3>National Cancer Act</h3><p>Expansão federal da pesquisa, do financiamento e da coordenação contra o câncer.</p></article>
-        <article class="policy"><b>04 · EDUCAÇÃO</b><h3>Title IX</h3><p>Proibição da discriminação sexual em programas educacionais financiados pelo governo federal.</p></article>
-        <article class="policy"><b>05 · SEGURANÇA</b><h3>Forças voluntárias</h3><p>Encerramento do recrutamento militar em tempo de paz e transição para uma força profissional.</p></article>
-        <article class="policy"><b>06 · DIPLOMACIA</b><h3>Détente</h3><p>SALT I e Tratado ABM como instrumentos de contenção negociada da competição nuclear.</p></article>
+      <div class="entry-grid">
+        <a class="entry" href={`${base}politica-externa/`}>
+          <span>01</span>
+          <h3>Política externa</h3>
+          <p>China, détente, triângulo estratégico.</p>
+        </a>
+        <a class="entry" href={`${base}presidencia/`}>
+          <span>02</span>
+          <h3>Presidência</h3>
+          <p>EPA, leis, capacidade de Estado.</p>
+        </a>
+        <a class="entry" href={`${base}brasil/`}>
+          <span>03</span>
+          <h3>Nixon e o Brasil</h3>
+          <p>Potência regional, barganha, FRUS.</p>
+        </a>
+        <a class="entry" href={`${base}biografia/`}>
+          <span>04</span>
+          <h3>Biografia</h3>
+          <p>Do outsider de Whittier ao retorno de 1968.</p>
+        </a>
       </div>
     </div>
   </section>
 
-  {featured.length > 0 && (
-    <section class="section white">
-      <div class="shell">
-        <div class="section-head"><div><p class="kicker">Publicação</p><h2>Artigos em destaque.</h2></div><a class="btn dark" href={`${base}artigos/`}>Ver todos</a></div>
-        <div class="cards">
-          {featured.map((article) => {
-            const raw = article.data.cover ?? '';
-            const cover = raw.startsWith('http') ? raw : raw ? `${base}${raw.replace(/^\//, '')}` : '';
-            return (
-            <a class="card" href={`${base}artigos/${article.id}/`}>
-              {cover
-                ? <img src={cover} alt={article.data.coverAlt ?? ''} width="640" height="360" loading="lazy" decoding="async" />
-                : <div class="card-cover-fallback" aria-hidden="true">{article.data.category}</div>}
-              <div class="card-body"><span class="card-meta">{article.data.category} · {article.data.publishedAt.toLocaleDateString('pt-BR')}</span><h3>{article.data.title}</h3><p>{article.data.description}</p></div>
-            </a>
-            );
-          })}
+  <section class="section navy cta-brasil">
+    <div class="shell cta-brasil-inner">
+      <div>
+        <p class="kicker light">Hemisfério</p>
+        <h2>Washington tratou o Brasil como ator — não como figurante.</h2>
+      </div>
+      <div>
+        <p>Café, status regional, energia e fricção diplomática no arquivo dos anos Nixon.</p>
+        <div class="actions">
+          <a class="btn primary" href={`${base}brasil/`}>Dossiê Brasil</a>
+          <a class="btn ghost" href={`${base}artigos/brasil-potencia-regional/`}>Ler o ensaio</a>
         </div>
       </div>
-    </section>
-  )}
-
-  <section class="section navy">
-    <div class="shell section-head">
-      <div><p class="kicker light">Nixon e o Brasil</p><h2>Uma relação de interesse nacional.</h2></div>
-      <div><p>Comércio, café, pesca, energia, investimento e estratégia hemisférica. O portal trata o Brasil como ator político, sem converter a ditadura ou seus dirigentes em objeto de celebração.</p><div class="actions"><a class="btn primary" href={`${base}brasil/`}>Abrir o dossiê Brasil</a></div></div>
     </div>
   </section>
 </BaseLayout>

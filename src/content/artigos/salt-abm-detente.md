@@ -5,8 +5,8 @@ description: "Uma defesa da détente nuclear de Nixon: SALT I, Tratado ABM e o u
 publishedAt: 2026-07-24
 author: "Nixon Brasil"
 category: "Política externa"
-cover: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Nixon_Brezhnev_sign_SALT_1972.jpg"
-coverAlt: "Nixon e Brezhnev na assinatura dos acordos SALT, 1972"
+cover: "https://commons.wikimedia.org/wiki/Special:Redirect/file/President_Richard_Nixon_and_Leonid_Brezhnev_signing_the_SALT_I_agreement.jpg"
+coverAlt: "Nixon e Brezhnev na assinatura dos acordos SALT I, 1972"
 coverCredit: "White House Photo Office / NARA · domínio público (via Wikimedia)"
 sourceUrl: "https://history.state.gov/milestones/1969-1976/salt"
 featured: false

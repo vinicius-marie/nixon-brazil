@@ -6,7 +6,7 @@ publishedAt: 2026-07-21
 updatedAt: 2026-07-24
 author: "Nixon Brasil"
 category: "Nixon e o Brasil"
-cover: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Richard_Nixon_presidential_portrait.jpg"
+cover: "https://commons.wikimedia.org/wiki/Special:Redirect/file/RichardNixon.jpg"
 coverAlt: "Retrato oficial do presidente Richard Nixon"
 coverCredit: "White House / domínio público (via Wikimedia)"
 sourceUrl: "https://history.state.gov/historicaldocuments/frus1969-76ve10"
