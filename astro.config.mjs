@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
-const repository = 'nixon-brazil';
+const repository = 'nixon-brasil';
 const customDomain = process.env.CUSTOM_DOMAIN;
 
 export default defineConfig({

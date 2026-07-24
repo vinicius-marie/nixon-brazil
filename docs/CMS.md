@@ -4,7 +4,7 @@
 
 1. Abra `https://app.pagescms.org/`.
 2. Entre com a conta GitHub proprietária do repositório.
-3. Autorize acesso somente a `viniciusdaniel-law/nixon-brazil`.
+3. Autorize acesso somente a `viniciusdaniel-law/nixon-brasil`.
 4. Selecione o repositório e a branch `main`.
 
 O Pages CMS lê o arquivo `.pages.yml` e oferece duas coleções:
@@ -68,4 +68,4 @@ Valor de exemplo:
 
 `nixonbrasil.org`
 
-O build passará automaticamente a usar a raiz `/` em vez de `/nixon-brazil/`.
+O build passa a usar a raiz `/` em vez de `/nixon-brasil/`.
